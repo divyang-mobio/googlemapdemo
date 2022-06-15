@@ -48,7 +48,6 @@ class DatabaseHelper {
   }
 
   Future<int> add(LocationData location) async {
-    print(location.longitude);
     Database db = await instance.database;
     return await db.insert('LOCATION', location.toMap());
   }
@@ -60,5 +59,10 @@ class DatabaseHelper {
         ? locations.map((c) => LocationData.fromMap(c)).toList()
         : [];
     return locationList;
+  }
+
+  Future<int> delete(int id) async {
+    Database db = await instance.database;
+    return await db.delete('LOCATION', where: "id = ?", whereArgs: [id]);
   }
 }
