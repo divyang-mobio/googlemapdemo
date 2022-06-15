@@ -52,4 +52,13 @@ class DatabaseHelper {
     Database db = await instance.database;
     return await db.insert('LOCATION', location.toMap());
   }
+
+  Future<List<LocationData>> getData() async {
+    Database db = await instance.database;
+    var locations = await db.query('LOCATION');
+    List<LocationData> locationList = locations.isNotEmpty
+        ? locations.map((c) => LocationData.fromMap(c)).toList()
+        : [];
+    return locationList;
+  }
 }

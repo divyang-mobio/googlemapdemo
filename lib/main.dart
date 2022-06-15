@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:googlemapdemo/database.dart';
+import 'package:googlemapdemo/position_list.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -89,9 +90,23 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('Maps'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LocationList()),
+                );
+              },
+              icon: const Icon(Icons.list))
+        ],
+      ),
       body: GoogleMap(
           initialCameraPosition:
-          const CameraPosition(target: LatLng(10.7, -122.4), zoom: 12),
+              const CameraPosition(target: LatLng(10.7, -122.4), zoom: 12),
           markers: markers,
           mapType: MapType.satellite,
           onMapCreated: (GoogleMapController controller) {
