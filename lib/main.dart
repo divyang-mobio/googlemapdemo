@@ -91,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: GoogleMap(
           initialCameraPosition:
-          const CameraPosition(target: LatLng(10.7, -122.4), zoom: 12),
+              const CameraPosition(target: LatLng(10.7, -122.4), zoom: 12),
           markers: markers,
           mapType: MapType.satellite,
           onMapCreated: (GoogleMapController controller) {
