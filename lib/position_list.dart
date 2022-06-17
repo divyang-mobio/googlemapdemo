@@ -35,26 +35,25 @@ class _LocationListState extends State<LocationList> {
                         DatabaseHelper.instance
                             .delete(snapshot.data?[index].id as int);
                       });
-
                     },
                     child: Card(
-                      elevation: 8,
+                        elevation: 8,
                         child: Column(
-                      children: [
-                        ListTile(
-                          title: Text(
-                              "id: ${snapshot.data?[index].id.toString()}"),
-                        ),
-                        ListTile(
-                          title: Text(
-                              "longitude: ${snapshot.data?[index].longitude.toString()}"),
-                        ),
-                        ListTile(
-                          title: Text(
-                              "latitude: ${snapshot.data?[index].latitude.toString()}"),
-                        ),
-                      ],
-                    )),
+                          children: [
+                            ListTile(
+                              title: Text(
+                                  "id: ${snapshot.data?[index].id.toString()}"),
+                            ),
+                            ListTile(
+                              title: Text(
+                                  "longitude: ${snapshot.data?[index].longitude.toString()}"),
+                            ),
+                            ListTile(
+                              title: Text(
+                                  "latitude: ${snapshot.data?[index].latitude.toString()}"),
+                            ),
+                          ],
+                        )),
                   );
                 });
           }),

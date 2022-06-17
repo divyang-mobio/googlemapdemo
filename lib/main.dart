@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:googlemapdemo/database.dart';
 import 'package:googlemapdemo/position_list.dart';
+import 'costom_map.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Google Map Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -37,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late GoogleMapController googleMapController;
   Position? position;
   Set<Marker> markers = {};
+  BitmapDescriptor? mapMaker;
 
   @override
   void initState() {
@@ -52,9 +54,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 position?.latitude as double, position?.longitude as double),
             zoom: 14)));
     markers.clear();
-
     markers.add(Marker(
         markerId: const MarkerId("currentLocation"),
+        draggable: true,
+        infoWindow: const InfoWindow(title: "divyang", snippet: 'test'),
         position: LatLng(
             position?.latitude as double, position?.longitude as double)));
 
@@ -91,6 +94,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.save),
+          onPressed: () async {
+            await DatabaseHelper.instance.add(LocationData(
+                latitude: position?.latitude as double,
+                longitude: position?.longitude as double));
+          },
+        ),
         centerTitle: true,
         title: const Text('Maps'),
         actions: [
@@ -105,21 +116,17 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: GoogleMap(
+          compassEnabled: true,
+          zoomControlsEnabled: false,
+          mapToolbarEnabled: false,
+          trafficEnabled: true,
           initialCameraPosition:
               const CameraPosition(target: LatLng(10.7, -122.4), zoom: 12),
           markers: markers,
-          mapType: MapType.satellite,
           onMapCreated: (GoogleMapController controller) {
+            controller.setMapStyle(CustomMapStyle.style);
             googleMapController = controller;
           }),
-      floatingActionButton: FloatingActionButton(
-        child: const Text("Save Location"),
-        onPressed: () async {
-          await DatabaseHelper.instance.add(LocationData(
-              latitude: position?.latitude as double,
-              longitude: position?.longitude as double));
-        },
-      ),
     );
   }
 }
