@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:googlemapdemo/database.dart';
+import 'package:googlemapdemo/bloc/datafetch_bloc.dart';
 import 'package:googlemapdemo/position_list.dart';
 import 'costom_map.dart';
 
@@ -15,12 +16,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Google Map Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return BlocProvider<DatafetchBloc>(
+      create: (context) => DatafetchBloc()..add(AllEvent()),
+      child: MaterialApp(
+        title: 'Google Map Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const MyHomePage(title: 'Flutter Demo Home Page'),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -60,7 +64,6 @@ class _MyHomePageState extends State<MyHomePage> {
         infoWindow: const InfoWindow(title: "divyang", snippet: 'test'),
         position: LatLng(
             position?.latitude as double, position?.longitude as double)));
-
     setState(() {});
   }
 
@@ -96,10 +99,14 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.save),
-          onPressed: () async {
-            await DatabaseHelper.instance.add(LocationData(
-                latitude: position?.latitude as double,
-                longitude: position?.longitude as double));
+          onPressed: () {
+            BlocProvider.of<DatafetchBloc>(context).add(AddEvent(
+                longitude: position?.longitude as double,
+                latitude: position?.latitude as double));
+            // context.read<DatafetchBloc>().add()
+            // await DatabaseHelper.instance.add(LocationData(
+            //     latitude: position?.latitude as double,
+            //     longitude: position?.longitude as double));
           },
         ),
         centerTitle: true,
