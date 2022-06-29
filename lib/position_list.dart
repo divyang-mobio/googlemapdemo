@@ -72,11 +72,6 @@ class LocationList extends StatelessWidget {
       ///Bloc
       body: BlocConsumer<DatafetchBloc, DatafetchState>(
         listener: (context, state) {
-          if (state is DatafetchInitial) {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text("loading"),
-            ));
-          }
           if (state is DatafetchLoaded) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               duration: const Duration(milliseconds: 600),
