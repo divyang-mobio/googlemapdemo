@@ -6,6 +6,5 @@ class DatafetchInitial extends DatafetchState {}
 
 class DatafetchLoaded extends DatafetchState {
   final List<LocationData> data;
-
   DatafetchLoaded({required this.data});
 }

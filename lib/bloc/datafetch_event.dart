@@ -13,6 +13,5 @@ class AddEvent extends DatafetchEvent{
 class AllEvent extends DatafetchEvent{}
 class DeleteEvent extends DatafetchEvent{
   final int id;
-
   DeleteEvent({required this.id});
 }

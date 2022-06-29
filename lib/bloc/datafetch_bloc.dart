@@ -18,7 +18,6 @@ class DatafetchBloc extends Bloc<DatafetchEvent, DatafetchState> {
     emit(DatafetchLoaded(
         data: await DatabaseHelper.instance.getData()));
   }
-
   void _onDeleteLocation(DeleteEvent event, Emitter<DatafetchState> emit) async {
     DatabaseHelper.instance.delete(event.id);
     emit(DatafetchLoaded(
